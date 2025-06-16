@@ -3,12 +3,13 @@ import moviesRouter from "./routers/movies.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import notFoundHandler from "./middlewares/notFoundHandler.js";
 import cors from "cors";
+import "dotenv/config";
+
+// ENV
+const { APP_PORT } = process.env;
 
 // .EXPRESS
 const app = express();
-
-// PORTA
-const port = 3000;
 
 // MIDDLEWARE PER CORS
 app.use(
@@ -22,8 +23,8 @@ app.use(express.static("public"));
 app.use(express.json());
 
 // SERVER STA ASCOLTANDO
-app.listen(port, () => {
-  console.log(`Il server è in ascolto alla porta: ${port}`);
+app.listen(APP_PORT, () => {
+  console.log(`Il server è in ascolto alla porta: ${APP_PORT}`);
 });
 
 // POST ROUTER
