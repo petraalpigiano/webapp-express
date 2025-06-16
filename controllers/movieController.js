@@ -26,37 +26,47 @@ function index(req, res) {
 // SHOW
 function show(req, res) {
   const id = parseInt(req.params.id);
-  const sqlMovies = `SELECT *
-  FROM posts
-  INNER JOIN post_tag
-  ON posts.id = post_tag.post_id
-  INNER JOIN tags
-  ON tags.id = post_tag.tag_id
-  WHERE posts.id = ? `;
+  const sqlMovies = `SELECT * FROM movies WHERE movies.id =? `;
+  const sqlReviews = `SELECT name, vote, text, reviews.created_at, reviews.updated_at FROM movies INNER JOIN reviews ON movies.id = reviews.movie_id WHERE movies.id = ? `;
+
   connection.query(sqlMovies, [id], (err, results) => {
     if (err)
       return res.status(500).json({
         error: "Richiesta fallita!",
       });
-    res.json(results);
+    if (results.length === 0) {
+      return res.status(404).json({ error: "Film non trovato!" });
+    }
+    const movie = results[0];
+
+    connection.query(sqlReviews, [id], (err, results) => {
+      if (err)
+        return res.status(500).json({
+          error: "Richiesta fallita!",
+        });
+      movie.review = results;
+      res.json(movie);
+    });
   });
-  // // ex PRENDO L'ID DALLA RICHIESTA
-  // const id = parseInt(req.params.id);
-  // //   res.send(`Ecco il post numero: ${id}`);
-  // // ex TROVO IL POST CON L'ID DELLA RICHIESTA
-  // const postFound = posts.find((currentPost) => {
-  //   const currentId = currentPost.id;
-  //   return currentId === id;
-  // });
-  // // ! SE NON TROVO IL POST
-  // if (!postFound) {
-  //   return res.status(404).json({
-  //     message: "Post non trovato",
-  //   });
-  // }
-  // // ex RISPONDO CON IL POST CON L'ID RICHIESTO
-  // res.json(postFound);
 }
+
+// // ex PRENDO L'ID DALLA RICHIESTA
+// const id = parseInt(req.params.id);
+// //   res.send(`Ecco il post numero: ${id}`);
+// // ex TROVO IL POST CON L'ID DELLA RICHIESTA
+// const postFound = posts.find((currentPost) => {
+//   const currentId = currentPost.id;
+//   return currentId === id;
+// });
+// // ! SE NON TROVO IL POST
+// if (!postFound) {
+//   return res.status(404).json({
+//     message: "Post non trovato",
+//   });
+// }
+// // ex RISPONDO CON IL POST CON L'ID RICHIESTO
+// res.json(postFound);
+// }
 // CREATE
 function create(req, res) {
   // res.send("Ho creato un nuovo post");
