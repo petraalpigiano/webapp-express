@@ -1,5 +1,5 @@
 import express from "express";
-import postsRouter from "./routers/posts.js";
+import moviesRouter from "./routers/movies.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import notFoundHandler from "./middlewares/notFoundHandler.js";
 import cors from "cors";
@@ -27,7 +27,7 @@ app.listen(port, () => {
 });
 
 // POST ROUTER
-app.use("/posts", postsRouter);
+app.use("/movies", moviesRouter);
 
 // MIDDLEWARE PER LA GESTIONE DEGLI ERRORI DEL SERVER
 app.use(errorHandler);

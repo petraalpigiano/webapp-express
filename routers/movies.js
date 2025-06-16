@@ -6,7 +6,7 @@ import {
   update,
   modify,
   destroy,
-} from "../controllers/postController.js";
+} from "../controllers/movieController.js";
 
 // ROUTER
 const router = express.Router();

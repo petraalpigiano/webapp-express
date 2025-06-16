@@ -2,9 +2,8 @@ import connection from "../data/db.js";
 
 // INDEX
 function index(req, res) {
-  const sqlPosts = `SELECT * FROM posts`;
-
-  connection.query(sqlPosts, (err, results) => {
+  const sqlMovies = `SELECT * FROM movies`;
+  connection.query(sqlMovies, (err, results) => {
     if (err)
       return res.status(500).json({
         error: "Richiesta fallita!",
@@ -27,15 +26,14 @@ function index(req, res) {
 // SHOW
 function show(req, res) {
   const id = parseInt(req.params.id);
-  const sqlPosts = `SELECT *
-FROM posts
-INNER JOIN post_tag
-ON posts.id = post_tag.post_id
-INNER JOIN tags
-ON tags.id = post_tag.tag_id
-WHERE posts.id = ? `;
-
-  connection.query(sqlPosts, [id], (err, results) => {
+  const sqlMovies = `SELECT *
+  FROM posts
+  INNER JOIN post_tag
+  ON posts.id = post_tag.post_id
+  INNER JOIN tags
+  ON tags.id = post_tag.tag_id
+  WHERE posts.id = ? `;
+  connection.query(sqlMovies, [id], (err, results) => {
     if (err)
       return res.status(500).json({
         error: "Richiesta fallita!",
@@ -167,16 +165,15 @@ function modify(req, res) {
 }
 // DELETE
 function destroy(req, res) {
-  const id = parseInt(req.params.id);
-  const sqlPosts = `DELETE FROM posts WHERE id = ?`;
-
-  connection.query(sqlPosts, [id], (err, results) => {
-    if (err)
-      return res.status(500).json({
-        error: "Richiesta fallita!",
-      });
-    res.sendStatus(204);
-  });
+  // const id = parseInt(req.params.id);
+  // const sqlPosts = `DELETE FROM posts WHERE id = ?`;
+  // connection.query(sqlPosts, [id], (err, results) => {
+  //   if (err)
+  //     return res.status(500).json({
+  //       error: "Richiesta fallita!",
+  //     });
+  //   res.sendStatus(204);
+  // });
   // // ex PRENDO L'ID DALLA RICHIESTA
   // // const id = parseInt(req.params.id);
   // res.send(`Ho eliminato il post numero: ${id}`);
