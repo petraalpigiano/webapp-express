@@ -8,20 +8,12 @@ function index(req, res) {
       return res.status(500).json({
         error: "Richiesta fallita!",
       });
+    results.map(function (currentMovie) {
+      return (currentMovie.image =
+        "http://localhost:3000/imgs/movies_cover/" + currentMovie.image);
+    });
     res.json(results);
   });
-  // // ex FILTRO L'INTERA LISTA CON 1 FILTRO
-  // const filterRecipe = req.query.recipe;
-  // //   res.json(posts);
-  // let filteredPost = posts;
-  // // ex SE IL FILTRO è PRESENTE RESTITUISCO I POST CHE RISPETTANO IL FILTRO
-  // if (filterRecipe) {
-  //   filteredPost = posts.filter(function (currentPost) {
-  //     return currentPost.tags.includes(filterRecipe);
-  //   });
-  // }
-  // // ex RISPONDO CON TUTTI I POST O CON QUELLI FILTRATI
-  // res.json(filteredPost);
 }
 // SHOW
 function show(req, res) {
@@ -37,6 +29,10 @@ function show(req, res) {
     if (results.length === 0) {
       return res.status(404).json({ error: "Film non trovato!" });
     }
+    results.map(function (currentMovie) {
+      return (currentMovie.image =
+        "http://localhost:3000/imgs/movies_cover/" + currentMovie.image);
+    });
     const movie = results[0];
 
     connection.query(sqlReviews, [id], (err, results) => {
@@ -50,23 +46,6 @@ function show(req, res) {
   });
 }
 
-// // ex PRENDO L'ID DALLA RICHIESTA
-// const id = parseInt(req.params.id);
-// //   res.send(`Ecco il post numero: ${id}`);
-// // ex TROVO IL POST CON L'ID DELLA RICHIESTA
-// const postFound = posts.find((currentPost) => {
-//   const currentId = currentPost.id;
-//   return currentId === id;
-// });
-// // ! SE NON TROVO IL POST
-// if (!postFound) {
-//   return res.status(404).json({
-//     message: "Post non trovato",
-//   });
-// }
-// // ex RISPONDO CON IL POST CON L'ID RICHIESTO
-// res.json(postFound);
-// }
 // CREATE
 function create(req, res) {
   // res.send("Ho creato un nuovo post");
