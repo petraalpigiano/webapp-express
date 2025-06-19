@@ -6,6 +6,7 @@ import {
   update,
   modify,
   destroy,
+  storeReview,
 } from "../controllers/movieController.js";
 
 // ROUTER
@@ -18,6 +19,8 @@ router.get("/", index);
 router.get("/:id", show);
 // CREATE
 router.post("/", create);
+// CREATE REVIEW
+router.post("/:id/review", storeReview);
 // UPDATE
 router.put("/:id", update);
 // MODIFY

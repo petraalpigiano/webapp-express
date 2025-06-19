@@ -67,6 +67,28 @@ function create(req, res) {
   // // ex RISPONDO CON 201 + LISTA DI TUTTI I POST
   // res.status(201).json(posts);
 }
+// CREATE REVIEW
+function storeReview(req, res) {
+  const id = parseInt(req.params.id);
+  const vote = parseInt(req.body.vote);
+  const { name, text } = req.body;
+
+  const sqlReview = `
+  INSERT INTO movies.reviews (movie_id, name, vote, text) VALUES (?, ?, ?, ?)`;
+
+  connection.query(sqlReview, [id, name, vote, text], (err, results) => {
+    if (err)
+      return res.status(500).json({
+        message: "Richiesta fallita!",
+        err,
+      });
+
+    res.status(201).json({
+      message: "Recensione inserita con successo",
+      id: results.insertId,
+    });
+  });
+}
 // UPDATE
 function update(req, res) {
   // // ex PRENDO L'ID DALLA RICHIESTA
@@ -202,4 +224,4 @@ function destroy(req, res) {
   // res.sendStatus(204);
 }
 
-export { index, show, create, update, modify, destroy };
+export { index, show, create, update, modify, destroy, storeReview };
